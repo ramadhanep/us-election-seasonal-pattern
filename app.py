@@ -9,7 +9,7 @@ import time
 # --------------------------------------------------
 # Set Streamlit page config for wide layout
 # --------------------------------------------------
-st.set_page_config(layout="wide", page_title="Election Cycle Seasonal Chart")
+st.set_page_config(layout="centered", page_title="Election Cycle Seasonal Chart")
 
 # --------------------------------------------------
 # 1) HELPER FUNCTIONS
@@ -99,7 +99,7 @@ def hirsch_style_seasonal_pattern(df):
     pivot_df = pivot_df.sort_index()  # ensure day_of_year ascending
     pivot_df['cumulative_factor'] = (1 + pivot_df['avg_daily_return']).cumprod()
     pivot_df['pct_change_ytd'] = (pivot_df['cumulative_factor'] - 1.0) * 100.0
-    out = pivot_df.reset_index()[['day_of_year', 'pct_change_ytd']]
+    out = pivot_df.reset_index()[['day_of_year', 'pct_change_ytd', 'cumulative_factor']]
     return out
 
 def compute_single_year_pattern(df, single_year):
@@ -124,9 +124,9 @@ def compute_single_year_pattern(df, single_year):
         st.write(f"No data found for year {single_year}. Available years: {df['year'].unique()}")
         return pd.DataFrame(columns=['day_of_year', 'pct_change_ytd'])
     temp = temp.sort_values('day_of_year')
-    temp['factor'] = (1 + temp['daily_return']).cumprod()
-    temp['pct_change_ytd'] = (temp['factor'] - 1.0) * 100.0
-    return temp[['day_of_year', 'pct_change_ytd']]
+    temp['cumulative_factor'] = (1 + temp['daily_return']).cumprod()
+    temp['pct_change_ytd'] = (temp['cumulative_factor'] - 1.0) * 100.0
+    return temp[['day_of_year', 'pct_change_ytd', 'cumulative_factor']]
 
 def day_of_year_to_month_date(day_of_year):
     """
@@ -160,6 +160,14 @@ def main():
     show_mid       = True
     show_post      = True
     show_current   = True
+
+    # 2.3b) Y-axis scale toggle
+    scale_choice = st.radio(
+        "Y-axis scale",
+        ["Linear (% change)", "Logarithmic (cumulative factor)"],
+        index=0,
+        horizontal=True,
+    )
 
     # 2.4) Define dynamic date ranges:
     # Historical data: from 1971-01-01 to December 31 of last year
@@ -265,18 +273,33 @@ def main():
         f"Current Year ({current_year} YTD)": "#ff7043"  # orange
     }
 
-    # Plot with Plotly
+    # Plot with Plotly (supports Linear vs Log scale)
+    if scale_choice.startswith("Linear"):
+        y_col = "pct_change_ytd"
+        y_label = "Cumulative % Change"
+        yaxis_type = "linear"
+    else:
+        y_col = "cumulative_factor"
+        y_label = "Cumulative Factor (log scale)"
+        yaxis_type = "log"
+
     fig = px.line(
         df_plot,
         x="date_for_x",
-        y="pct_change_ytd",
+        y=y_col,
         color="category",
         labels={
             "date_for_x": "Month",
-            "pct_change_ytd": "Cumulative % Change"
+            y_col: y_label,
         },
         title=f"Election Cycle Seasonal Chart: {chosen_symbol}"
     )
+
+    # Determine which categories should be visible by default
+    current_cycle_label = get_election_cycle_label(current_year)
+    all_years_label = f"All Years ({first_year}-{current_year - 1})"
+    current_year_label = f"Current Year ({current_year} YTD)"
+    allowed_categories = {all_years_label, current_year_label, current_cycle_label}
 
     # Update trace properties with custom colors and line widths
     for trace in fig.data:
@@ -284,6 +307,9 @@ def main():
         if cat_name in color_map:
             trace.line.color = color_map[cat_name]
         trace.line.width = 2
+        # Hide non-relevant categories by default (still clickable in legend)
+        if cat_name not in allowed_categories:
+            trace.visible = 'legendonly'
 
     # Set x-axis to show monthly ticks
     fig.update_xaxes(
@@ -301,6 +327,9 @@ def main():
             x=0.5
         )
     )
+
+    # Apply y-axis type based on selection
+    fig.update_yaxes(type=yaxis_type)
 
     st.plotly_chart(fig, use_container_width=True)
 

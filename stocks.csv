@@ -1,4 +1,31 @@
 symbol,name
-^GSPC,S&P 500
-^NDX,Nasdaq 100
+^IXIC,NASDAQ Composite
+^JKSE,Jakarta Composite Index
+
 BTC-USD,Bitcoin
+ETH-USD,Ethereum
+SOL-USD,Solana
+BNB-USD,Binance Coin
+XRP-USD,Ripple
+
+BBCA.JK,Bank Central Asia Tbk
+BBRI.JK,Bank Rakyat Indonesia Tbk
+BMRI.JK,Bank Mandiri Tbk
+BYAN.JK,Bayan Resources Tbk
+TLKM.JK,Telkom Indonesia Tbk
+ASII.JK,Astra International Tbk
+BBNI.JK,Bank Negara Indonesia Tbk
+AMMN.JK,Amman Mineral Internasional Tbk
+ADRO.JK,Adaro Energy Indonesia Tbk
+ICBP.JK,Indofood CBP Sukses Makmur Tbk
+
+AAPL,Apple Inc
+MSFT,Microsoft Corp
+NVDA,NVIDIA Corporation
+AMZN,Amazon.com Inc
+GOOGL,Alphabet Inc Class A
+META,Meta Platforms Inc
+TSLA,Tesla Inc
+AVGO,Broadcom Inc
+COST,Costco Wholesale Corp
+AMD,Advanced Micro Devices Inc
