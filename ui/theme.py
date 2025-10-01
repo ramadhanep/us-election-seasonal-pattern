@@ -5,21 +5,16 @@ GRID_COLOR = "#1C2428"
 ACCENT_COLOR = "#00E676"
 
 # CSS to hide Streamlit Cloud toolbar and viewer/profile badges
-HIDE_UI_CSS = """
+CUSTOM_CSS = """
 <style>
-div[data-testid="stToolbar"],
-div[data-testid="stToolbarActions"],
-.stToolbarActions,
-button[title="View source"],
-div[class*="viewerBadge"],
-a[class*="viewerBadge"],
-div[class*="profileContainer"],
-div[class*="profilePreview"],
-._container_gzau3_1,
-._viewerBadge_nim44_23,
-._profileContainer_gzau3_53,
-._profilePreview_gzau3_63 {
-  display: none !important;
+div[data-testid="stHorizontalBlock"] {
+  display: flex;
+  flex-direction: row;
+}
+@media (max-width: 640px) {
+  div[data-testid="column"] {
+    min-width: calc(30% - 1.5rem);
+  }
 }
 </style>
 """

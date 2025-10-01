@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-from ui.theme import HIDE_UI_CSS, SIDEBAR_CSS
+from ui.theme import CUSTOM_CSS, SIDEBAR_CSS
 from views.home import render_home
 from views.docs import render_docs
 from views.lock import render_lock
@@ -11,7 +11,7 @@ from views.lock import render_lock
 st.set_page_config(layout="wide", page_title="Election Cycle Seasonal Chart")
 
 # Hide Streamlit Cloud toolbar and viewer/profile badges; slim sidebar
-st.markdown(HIDE_UI_CSS + SIDEBAR_CSS, unsafe_allow_html=True)
+st.markdown(CUSTOM_CSS + SIDEBAR_CSS, unsafe_allow_html=True)
 
 
 def main():
