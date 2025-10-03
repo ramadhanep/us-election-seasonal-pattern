@@ -1,9 +1,9 @@
 symbol,name
+BTC-USD,Bitcoin
 ^IXIC,NASDAQ Composite
 ^GSPC,S&P 500
 ^JKSE,Jakarta Composite Index
 
-BTC-USD,Bitcoin
 ETH-USD,Ethereum
 SOL-USD,Solana
 BNB-USD,Binance Coin
@@ -58,6 +58,28 @@ BUKA.JK,Bukalapak.com Tbk
 EMTK.JK,Elang Mahkota Teknologi Tbk
 BBYB.JK,Bank Neo Commerce Tbk
 ESSA.JK,Surya Esa Perkasa Tbk
+RAJA.JK,Rukun Raharja Tbk
+SIDO.JK,Industri Jamu dan Farmasi Sido Muncul Tbk
+MIKA.JK,Mitra Keluarga Karyasehat Tbk
+ACES.JK,Ace Hardware Indonesia Tbk
+JSMR.JK,Jasa Marga (Persero) Tbk
+INDY.JK,Indika Energy Tbk
+SMCB.JK,Solusi Bangun Indonesia Tbk
+WIKA.JK,Wijaya Karya (Persero) Tbk
+WSKT.JK,Waskita Karya (Persero) Tbk
+PTPP.JK,PP (Persero) Tbk
+ADHI.JK,Adhi Karya (Persero) Tbk
+BFIN.JK,BFI Finance Indonesia Tbk
+BBTN.JK,Bank Tabungan Negara (Persero) Tbk
+BJBR.JK,Bank Pembangunan Daerah Jawa Barat Tbk
+BJTM.JK,Bank Pembangunan Daerah Jawa Timur Tbk
+NCKL.JK,Trimegah Bangun Persada Tbk
+SMDR.JK,Samudera Indonesia Tbk
+ELSA.JK,Elnusa Tbk
+DOID.JK,Delta Dunia Makmur Tbk
+PGEO.JK,Pertamina Geothermal Energy Tbk
+MTEL.JK,Dayamitra Telekomunikasi Tbk
+JSMR.JK,Jasa Marga (Persero) Tbk
 
 AAPL,Apple Inc
 MSFT,Microsoft Corp
