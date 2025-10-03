@@ -158,6 +158,7 @@ def render_home(stock_df: pd.DataFrame):
 
     fig.update_layout(
         height=620,
+        width=600,
         paper_bgcolor=BACKGROUND_COLOR,
         plot_bgcolor=BACKGROUND_COLOR,
         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
@@ -168,5 +169,4 @@ def render_home(stock_df: pd.DataFrame):
     fig.update_yaxes(type=yaxis_type, gridcolor=GRID_COLOR)
     fig.update_xaxes(gridcolor=GRID_COLOR)
 
-    st.plotly_chart(fig, use_container_width=True)
-
+    st.plotly_chart(fig, use_container_width=False)
