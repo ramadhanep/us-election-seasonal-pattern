@@ -44,7 +44,7 @@ def render_home(stock_df: pd.DataFrame):
     start_unix = int(time.mktime(start_dt.timetuple()))
     end_unix = int(time.mktime(end_dt.timetuple()))
 
-    with st.spinner("Fetching data from Yahoo Finance..."):
+    with st.spinner("Fetching data..."):
         df_raw = fetch_data_from_yahoo(chosen_symbol, start_unix, end_unix)
 
     df_raw['year'] = df_raw['date'].dt.year
@@ -57,6 +57,17 @@ def render_home(stock_df: pd.DataFrame):
 
     df_hist_daily['cycle'] = df_hist_daily['year'].apply(get_election_cycle_label)
 
+    # Lookup friendly name
+    symbol_name = chosen_symbol
+    try:
+        if "name" in stock_df.columns:
+            match = stock_df[stock_df["symbol"] == chosen_symbol]
+            if not match.empty:
+                symbol_name = str(match.iloc[0]["name"]) or chosen_symbol
+    except Exception:
+        pass
+
+    # Prepare lines for plotting
     lines_data = []
 
     if show_all_years and not df_hist_daily.empty:
@@ -138,7 +149,15 @@ def render_home(stock_df: pd.DataFrame):
     current_cycle_label = get_election_cycle_label(current_year)
     all_years_label = f"All Years ({first_year}-{current_year - 1})"
     current_year_label = f"Current Year ({current_year} YTD)"
-    allowed_categories = {all_years_label, current_year_label, current_cycle_label}
+
+    # Determine active legends based on symbol type
+    # - Crypto (e.g., BTC-USD, ETH-USD, etc.): activate only All Years + Current Year
+    # - Stocks (ID/US): deactivate All Years; activate Current Year + current cycle (pre/mid/post/election)
+    is_crypto = chosen_symbol.endswith("-USD")
+    if is_crypto:
+        allowed_categories = {all_years_label, current_year_label}
+    else:
+        allowed_categories = {current_year_label, current_cycle_label}
 
     for trace in fig.data:
         cat_name = trace.name
@@ -158,7 +177,7 @@ def render_home(stock_df: pd.DataFrame):
 
     fig.update_layout(
         height=620,
-        width=600,
+        width=800,
         paper_bgcolor=BACKGROUND_COLOR,
         plot_bgcolor=BACKGROUND_COLOR,
         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
@@ -170,3 +189,57 @@ def render_home(stock_df: pd.DataFrame):
     fig.update_xaxes(gridcolor=GRID_COLOR)
 
     st.plotly_chart(fig, use_container_width=False)
+
+    # Below-chart info: name, current price, seasonal prediction
+    # Current price (last adjclose)
+    current_price = None
+    if not df_raw.empty and "adjclose" in df_raw.columns:
+        last_adj = df_raw["adjclose"].dropna()
+        if not last_adj.empty:
+            current_price = float(last_adj.iloc[-1])
+
+    # Start-of-year price (first available day in current year)
+    start_price = None
+    if not df_current_raw.empty and "adjclose" in df_current_raw.columns:
+        first_adj = df_current_raw.sort_values("date")["adjclose"].dropna()
+        if not first_adj.empty:
+            start_price = float(first_adj.iloc[0])
+
+    # Determine benchmark label (acuan lawan) for prediction
+    benchmark_label = all_years_label if is_crypto else current_cycle_label
+
+    predicted_price = None
+    predicted_pct = None
+    bench_df = df_plot[df_plot["category"] == benchmark_label]
+    if not bench_df.empty:
+        # Use last available full-year cumulative percentage from seasonal pattern
+        last_pct = bench_df.sort_values("day_of_year")["pct_change_ytd"].dropna()
+        if not last_pct.empty:
+            predicted_pct = float(last_pct.iloc[-1])
+            if start_price is not None:
+                predicted_price = start_price * (1.0 + predicted_pct / 100.0)
+
+    # (Removed chance vs target and conservative target calculations per request)
+
+    def fmt_num(x):
+        try:
+            return f"{int(round(x)):,}"
+        except Exception:
+            return "-"
+
+    def fmt_pct(x):
+        try:
+            sign = "+" if x >= 0 else ""
+            return f"{sign}{int(round(x))}%"
+        except Exception:
+            return ""
+
+    st.markdown(f"<h3 style='margin-top:0.5rem;margin-bottom:0'>{symbol_name}</h3>", unsafe_allow_html=True)
+    if current_price is not None:
+        st.caption(f"Current price: {fmt_num(current_price)}")
+    if predicted_price is not None and predicted_pct is not None:
+        st.caption(
+            f"This year prediction price by seasonal pattern: {fmt_num(predicted_price)} ({fmt_pct(predicted_pct)})"
+        )
+    # Chance vs seasonal target and conservative target removed
+    st.caption("Use with caution — historical statistics, not financial advice.")

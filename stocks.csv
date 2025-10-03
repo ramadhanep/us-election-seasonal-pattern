@@ -1,15 +1,47 @@
 symbol,name
 BTC-USD,Bitcoin
-^IXIC,NASDAQ Composite
-^GSPC,S&P 500
-^JKSE,Jakarta Composite Index
-
 ETH-USD,Ethereum
 SOL-USD,Solana
 BNB-USD,Binance Coin
 
+^IXIC,NASDAQ Composite
+^GSPC,S&P 500
+^JKSE,Jakarta Composite Index
+
 BBCA.JK,Bank Central Asia Tbk
 BBRI.JK,Bank Rakyat Indonesia Tbk
+
+AAPL,Apple Inc
+MSFT,Microsoft Corp
+NVDA,NVIDIA Corporation
+AMZN,Amazon.com Inc
+GOOGL,Alphabet Inc Class A
+META,Meta Platforms Inc
+TSLA,Tesla Inc
+AVGO,Broadcom Inc
+COST,Costco Wholesale Corp
+AMD,Advanced Micro Devices Inc
+NFLX,Netflix Inc
+ADBE,Adobe Inc
+INTC,Intel Corporation
+QCOM,QUALCOMM Incorporated
+AMAT,Applied Materials Inc
+INTU,Intuit Inc
+PYPL,PayPal Holdings Inc
+MRVL,Marvell Technology Inc
+LRCX,Lam Research Corporation
+ASML,ASML Holding NV
+ARM,Arm Holdings plc
+CRWD,CrowdStrike Holdings Inc
+PANW,Palo Alto Networks Inc
+SNOW,Snowflake Inc
+SHOP,Shopify Inc
+ABNB,Airbnb Inc
+UBER,Uber Technologies Inc
+MU,Micron Technology Inc
+TSM,Taiwan Semiconductor Manufacturing Co Ltd
+
+
 BMRI.JK,Bank Mandiri Tbk
 CTRA.JK,Ciputra Development Tbk
 TLKM.JK,Telkom Indonesia Tbk
@@ -80,33 +112,3 @@ DOID.JK,Delta Dunia Makmur Tbk
 PGEO.JK,Pertamina Geothermal Energy Tbk
 MTEL.JK,Dayamitra Telekomunikasi Tbk
 JSMR.JK,Jasa Marga (Persero) Tbk
-
-AAPL,Apple Inc
-MSFT,Microsoft Corp
-NVDA,NVIDIA Corporation
-AMZN,Amazon.com Inc
-GOOGL,Alphabet Inc Class A
-META,Meta Platforms Inc
-TSLA,Tesla Inc
-AVGO,Broadcom Inc
-COST,Costco Wholesale Corp
-AMD,Advanced Micro Devices Inc
-NFLX,Netflix Inc
-ADBE,Adobe Inc
-INTC,Intel Corporation
-QCOM,QUALCOMM Incorporated
-AMAT,Applied Materials Inc
-INTU,Intuit Inc
-PYPL,PayPal Holdings Inc
-MRVL,Marvell Technology Inc
-LRCX,Lam Research Corporation
-ASML,ASML Holding NV
-ARM,Arm Holdings plc
-CRWD,CrowdStrike Holdings Inc
-PANW,Palo Alto Networks Inc
-SNOW,Snowflake Inc
-SHOP,Shopify Inc
-ABNB,Airbnb Inc
-UBER,Uber Technologies Inc
-MU,Micron Technology Inc
-TSM,Taiwan Semiconductor Manufacturing Co Ltd
